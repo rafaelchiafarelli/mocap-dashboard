@@ -4,28 +4,28 @@
 
 **Status: draft for creator review.**
 
-The MVP is creator-operated and local to one workstation/project folder. It
+The MVP is creator-operated and local to one workstation/film folder. It
 must remain understandable to a future collaborator, but does not implement
 accounts or shared authorization in its first release.
 
-The project folder is the only durable source of truth. Dashboard state that
+The film folder is the only durable source of truth. Dashboard state that
 must survive restart is stored within that folder; live Claude session state
 is observed from Claude Code and mirrored locally as a timestamped,
 recoverable record.
 
-## Journey 1 — Start or open a film project
+## Journey 1 — Start or open a film
 
 - **User:** Creator.
-- **Starting condition:** New project folder or existing folder with
+- **Starting condition:** New film folder or existing folder with
   screenplay, brief, readiness report, worklist, production artifacts, or a
   partial subset.
-- **Action:** Select folder, inspect discovered files and project identity,
+- **Action:** Select folder, inspect discovered files and film identity,
   confirm intended outcome, review parse/access warnings, and authorize
-  project-local dashboard metadata initialization if needed.
-- **Resulting state:** Project is identified; known stages and artifacts are
+  film-local dashboard metadata initialization if needed.
+- **Resulting state:** Film is identified; known stages and artifacts are
   displayed with current/unknown/missing/unreadable conditions.
 - **Handoff:** User chooses the next valid stage action or starts discovery.
-- **Recovery:** Reopen the same project folder and reconstruct state from its
+- **Recovery:** Reopen the same film folder and reconstruct state from its
   files. If metadata is invalid, show the error and keep original documents
   untouched.
 - **MVP boundary:** No account creation, cloud registration, source rewrite,
@@ -43,8 +43,8 @@ recoverable record.
   visibly distinct.
 - **Handoff:** Create/confirm the production worklist with deliverable
   contracts, single owners, dependencies, and completion checks.
-- **Recovery:** Resume from project documents and recorded decisions. Never
-  interpret partial analysis as a whole-project conclusion.
+- **Recovery:** Resume from film documents and recorded decisions. Never
+  interpret partial analysis as a whole-film conclusion.
 - **MVP boundary:** The tool does not let an agent make or silently approve
   creative decisions.
 
@@ -64,7 +64,7 @@ recoverable record.
   return to the work-package review view.
 - **Recovery:** If the dashboard or machine stops, sessions may continue
   according to Claude Code behavior; the dashboard reloads the saved
-  project-local run mapping and refreshes current CLI state when available.
+  film-local run mapping and refreshes current CLI state when available.
 - **Safety:** Never dispatch a task with unmet dependencies, missing required
   approval, ambiguous ownership, or overlapping writes with another active
   task. If a task may edit shared files (such as the creative brief or
@@ -97,7 +97,7 @@ recoverable record.
 - **User:** Creator.
 - **Starting condition:** An approved or proposed source, decision, or
   specification changes.
-- **Action:** Record the changed item in its authoritative project file and
+- **Action:** Record the changed item in its authoritative film file and
   refresh the dashboard scan.
 - **Resulting state:** The dashboard follows dependency/provenance links to
   list affected artifacts, work packages, and stages with reasons. Unknown
@@ -135,7 +135,7 @@ recoverable record.
 - **Resulting state:** Production assets and finished-film deliverables have
   evidence, owners, review state, and downstream links.
 - **Handoff:** Final creator acceptance and delivery/archive record.
-- **Recovery:** Work resumes from project-local records and actual files.
+- **Recovery:** Work resumes from film-local records and actual files.
 - **MVP boundary:** Dashboard supports the lifecycle model and exposes
   unconfigured stages, but cannot claim a complete production workflow until
   qualified roles, per-stage acceptance criteria, and required software are
@@ -145,8 +145,8 @@ recoverable record.
 
 - **User:** Creator.
 - **Starting condition:** User pauses, dashboard crashes, CLI exits, session
-  fails, network/auth is unavailable, or a project file becomes malformed.
-- **Action:** Reopen the project and inspect the last confirmed checkpoint,
+  fails, network/auth is unavailable, or a film file becomes malformed.
+- **Action:** Reopen the film and inspect the last confirmed checkpoint,
   last observed CLI state, stale records, and errors.
 - **Resulting state:** The user sees what is confirmed, what is uncertain,
   and safe manual next steps.
@@ -160,9 +160,9 @@ recoverable record.
 ## Journey 9 — Future collaborator handoff (post-MVP)
 
 - **User:** Creator and an authorized collaborator.
-- **Starting condition:** Project files and workflow records are shared using
+- **Starting condition:** Film files and workflow records are shared using
   an explicitly selected access/backup mechanism.
-- **Action:** Collaborator opens the project, reviews status/evidence and
+- **Action:** Collaborator opens the film, reviews status/evidence and
   responsibilities, then accepts a package or handoff.
 - **Resulting state:** Ownership and review actions are attributable.
 - **Handoff:** Work resumes without private chat history as the only record.
@@ -176,7 +176,7 @@ recoverable record.
 
 | Action | Authorization |
 |---|---|
-| Read-only discovery of selected project files | Creator selects the project root and confirms scope |
+| Read-only discovery of selected film files | Creator selects the film root and confirms scope |
 | Create dashboard operational directory | Explicit creator approval on first use |
 | Generate a handoff prompt | Creator selects one authorized, ready task |
 | Start Claude session | Creator dispatches it through Claude Code Agent View |
@@ -184,12 +184,12 @@ recoverable record.
 | Modify source documents or promote agent output | Human review and explicit confirmation |
 | Change creator-owned direction or approve a decision | Creator only |
 | Pass production-entry readiness gate | Creator explicitly confirms after reviewing cited audit |
-| Delete/overwrite project files or resolve conflicting outputs | Explicit creator authorization |
+| Delete/overwrite film files or resolve conflicting outputs | Explicit creator authorization |
 | External notification, scheduled unattended run, or hosted sharing | Not in MVP; requires separate opt-in design |
 
 ## Automation and observability policy
 
-- Every observed run shows project, work-package ID, agent/session identity,
+- Every observed run shows film, work-package ID, agent/session identity,
   current state, last observed timestamp, last checkpoint if available,
   produced/changed paths when known, and surfaced errors.
 - Status values from external CLI output are validated and normalized; raw
@@ -198,7 +198,7 @@ recoverable record.
   sessions alive.
 - User starts and links sessions; dashboard may refresh status only while
   open or by explicit user action. No background service is required.
-- Persist minimal metadata in the project folder; do not store full private
+- Persist minimal metadata in the film folder; do not store full private
   conversations or credentials by default.
 - A lost connection, unsupported CLI version, invalid output, or failed
   process must show an error and manual fallback.

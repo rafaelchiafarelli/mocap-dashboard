@@ -2,7 +2,7 @@
 
 ## Purpose and review status
 
-This contract defines the project information the workflow dashboard must
+This contract defines the film information the workflow dashboard must
 show and preserve so a creator can understand what is done, what is underway,
 what remains, why the current state is justified, and what a changed
 requirement would affect.
@@ -17,32 +17,32 @@ or approve the film's creative or production assets.
 
 ## Source of truth
 
-- The film project folder is the sole durable source of truth for project
+- The film folder is the sole durable source of truth for film
   workflow state, source material, decisions, specifications, implementation
   assets, and agent-run records.
-- A dashboard may parse, index, and temporarily cache project data to present
+- A dashboard may parse, index, and temporarily cache film data to present
   views. A cache is disposable and must never be treated as newer or more
-  authoritative than the project files.
+  authoritative than the film files.
 - Durable state written by the dashboard or an agent must be written within
-  the project folder. No separate database may be required to reconstruct the
-  project's current state.
-- Existing project documents remain authoritative for the information they
+  the film folder. No separate database may be required to reconstruct the
+  film's current state.
+- Existing film documents remain authoritative for the information they
   own. The contract does not require copying the full contents of briefs,
   scripts, memos, or assets into a second manifest.
 - If a source file is missing, unreadable, invalid, or has changed since an
   assessment, the dashboard must show that limitation. It must not present a
   stale cached interpretation as current.
-- The project folder must remain understandable and usable without the
+- The film folder must remain understandable and usable without the
   dashboard.
 
 ## State entities
 
-### Project
+### Film
 
-The project identifies the film and its root folder. It has:
+The film identifies the film and its root folder. It has:
 
-- a stable project identifier and human-readable title;
-- a project root;
+- a stable film identifier and human-readable title;
+- a film root;
 - an intended outcome and current lifecycle stage;
 - an overall derived condition: `active`, `paused`, `blocked`,
   `needs-review`, or `complete`;
@@ -52,13 +52,13 @@ The project identifies the film and its root folder. It has:
 The overall condition is a summary, not a manually maintained substitute for
 the underlying tasks, decisions, and artifacts. `complete` requires explicit
 evidence that the finished-film delivery criterion is met; completing
-pre-production alone is not project completion.
+pre-production alone is not film completion.
 
 ### Stage
 
-A stage is a named part of the project lifecycle. It has entry criteria,
+A stage is a named part of the film lifecycle. It has entry criteria,
 required outputs, exit criteria, and any required human-review gate. A
-project can have one active stage and can retain prior stage outcomes.
+film can have one active stage and can retain prior stage outcomes.
 Its state is `not-started`, `in-progress`, `blocked`, `awaiting-review`,
 `passed`, `deferred`, or `cancelled`; `passed` requires recorded exit
 evidence and human confirmation where the stage defines a review gate.
@@ -127,11 +127,11 @@ package; prior outcomes remain traceable.
 
 An artifact is a source, evidence item, decision record, analysis memo,
 production-facing specification, implementation asset, or delivery item
-stored in the project folder. Track:
+stored in the film folder. Track:
 
 - stable ID where the workflow supplies one, artifact class and concrete
   format/type;
-- project-relative path;
+- film-relative path;
 - producing work package or source, where applicable;
 - supporting source/evidence references;
 - revision or last-observed modification information;
@@ -188,9 +188,9 @@ list. At minimum, represent:
 These links are the basis for explaining why work is blocked or ready and for
 showing the likely impact of a changed specification.
 
-## Existing project files and status normalization
+## Existing film files and status normalization
 
-The dashboard must be able to read current project documents without
+The dashboard must be able to read current film documents without
 requiring an immediate rewrite into a new schema. It may normalize known
 status wording into this contract for display, while preserving the original
 file as the source. The normalized value must retain a reference to its
@@ -201,12 +201,12 @@ priority/milestone hint, not proof that all dependencies are met; it must not
 be mapped directly to `ready`. `done` may map to a completed-work claim that
 still requires the deliverable and completion condition to be checked.
 Unknown or ambiguous wording maps to `needs-review`, not to the nearest
-success state. Any migration or rewrite of existing project files requires
+success state. Any migration or rewrite of existing film files requires
 explicit authorization and must preserve the original information.
 
 ## Review, approval, and readiness
 
-Approval is not a single project-wide boolean. Track the applicable reviews
+Approval is not a single film-wide boolean. Track the applicable reviews
 separately:
 
 - creator approval of creative direction or a decision;
@@ -229,7 +229,7 @@ The mandatory pre-production exit audit must report:
 - proposed next actions and the evidence supporting each.
 
 The audit can be automated, including by a final dashboard/readiness agent
-pass over project files, but it is not an automatic authorization. It
+pass over film files, but it is not an automatic authorization. It
 confirms whether production has the correct current information and assets to
 continue, identifies gaps and their downstream impact, and reports the basis
 for each conclusion. A designated human reviews the findings and confirms or
@@ -258,7 +258,7 @@ completion does not resolve creative or technical conflicts automatically.
 
 ## Required invariants
 
-1. The project folder is sufficient to reconstruct durable workflow state.
+1. The film folder is sufficient to reconstruct durable workflow state.
 2. The dashboard is a view/controller over that state, not a second authority.
 3. Work-package status, agent-run status, artifact status, approval state,
    decision state, and stage readiness are separate.
@@ -275,7 +275,7 @@ completion does not resolve creative or technical conflicts automatically.
 
 ## Review walkthrough
 
-Review this contract against the pilot film project before accepting it:
+Review this contract against the pilot film before accepting it:
 
 - Can the existing brief distinguish approved direction, proposals,
   unresolved choices, and deferrals?

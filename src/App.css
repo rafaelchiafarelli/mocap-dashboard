@@ -103,7 +103,7 @@ h1 span {
   line-height: 1.7;
 }
 
-.project-panel {
+.film-panel {
   padding: 26px 30px 27px;
   border: 1px solid var(--line);
   border-radius: 13px;
@@ -138,11 +138,11 @@ h1 span {
   white-space: nowrap;
 }
 
-.project-form {
+.film-form {
   margin-top: 26px;
 }
 
-.project-form label {
+.film-form label {
   display: block;
   margin-bottom: 9px;
   color: #45423d;
@@ -356,7 +356,7 @@ h1 span {
     padding: 58px 0 35px;
   }
 
-  .project-panel {
+  .film-panel {
     padding: 22px 18px;
   }
 

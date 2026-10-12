@@ -2,8 +2,8 @@
 
 - **Depends on:** dashboard/1 and dashboard/2
 - **Contract:**
-  - **In:** Implemented project-start and work-package views.
-  - **Requires:** A new collaborator and a project paused at a representative
+  - **In:** Implemented film-start and work-package views.
+  - **Requires:** A new collaborator and a film paused at a representative
     workflow stage.
   - **Delivers:** In-product onboarding/help and a tested resume/handoff
     procedure covering permissions, current state, pending approvals, source

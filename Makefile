@@ -29,9 +29,9 @@ lock:
 	.venv/bin/uv pip compile pyproject.toml --python-version 3.12 --generate-hashes -o requirements.lock
 
 IMAGE ?= mocap-dashboard:dev
-# Film project folders are mounted at the same path, so the path typed in the
+# Film folders are mounted at the same path, so the path typed in the
 # UI is the same inside and outside the container.
-PROJECTS ?= /mnt/g
+FILMS ?= /mnt/g
 
 image:
 	docker build -t $(IMAGE) .
@@ -45,7 +45,7 @@ image:
 up: image
 	docker run --rm -it --user $$(id -u):$$(id -g) \
 		-p 127.0.0.1:4174:4174 \
-		-v $(PROJECTS):$(PROJECTS) \
+		-v $(FILMS):$(FILMS) \
 		--pid=host \
 		-e HOME=$$HOME \
 		-v $$HOME/.claude:$$HOME/.claude \

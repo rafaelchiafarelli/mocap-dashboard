@@ -4,7 +4,7 @@
 
 **Status: draft for creator review.**
 
-The product MVP succeeds when it helps the creator manage a film project from
+The product MVP succeeds when it helps the creator manage a film from
 its existing source material through production and post-production to a
 reviewed, deliverable movie, while answering:
 
@@ -15,7 +15,7 @@ reviewed, deliverable movie, while answering:
 - What would a changed decision or requirement affect?
 - What is the next useful action?
 
-The film is the intended project outcome; the dashboard is the visualization,
+The film is the intended outcome; the dashboard is the visualization,
 workflow-control, audit, and recovery tool. It does not create the film by
 itself and cannot substitute for qualified creative or production work.
 
@@ -25,17 +25,17 @@ hosting, and multi-user permissions are not MVP requirements.
 
 ## MVP operating decisions
 
-- The project folder is the sole durable source of truth. The dashboard may
-  cache/index it, but must be able to rebuild its view from project files.
+- The film folder is the sole durable source of truth. The dashboard may
+  cache/index it, but must be able to rebuild its view from film files.
 - The reusable application is a separate repository mounted at
   `mocap-studio/mocap-dashboard`, alongside the production tools. This
   initiative lives in that repository too (moved from `mocap-preprod` on
   2026-10-11). It is software for managing film
-  projects, not film content.
+  films, not film content.
 - Existing briefs, worklists, source files, and production assets remain the
   authority for their content. The dashboard must not silently rewrite them.
 - Dashboard-owned operational records, including links between a work package
-  and a Claude Code run, are stored inside the selected project folder and
+  and a Claude Code run, are stored inside the selected film folder and
   contain references, not duplicate creative content.
 - Store those records under `.film-workflow/` as versioned JSON, separate from
   authoritative briefs, worklists, and deliverables.
@@ -55,20 +55,20 @@ hosting, and multi-user permissions are not MVP requirements.
 
 ## End-to-end film workflow represented by the MVP
 
-The dashboard must represent the entire film lifecycle from project start to
+The dashboard must represent the entire film lifecycle from film start to
 delivery. It must distinguish the stages it can currently guide from later
 stages whose detailed production procedures, agents, or acceptance templates
 have not yet been authored. It must show those as unconfigured or capability
 gaps, not as implicitly complete.
 
-### 0. Project setup and source intake
+### 0. Film setup and source intake
 
-**Purpose:** Establish what project is being managed and what materials
+**Purpose:** Establish what film is being managed and what materials
 exist.
 
 **Work:**
 
-- Select or create a project folder.
+- Select or create a film folder.
 - Record the title, intended finished-film outcome, and source locations.
 - Inventory recognized workflow documents and relevant media/asset files
   without modifying them.
@@ -76,9 +76,9 @@ exist.
 - Confirm which files the dashboard is allowed to inspect.
 
 **Handoff:** A source inventory and a clear next action for script/readiness
-analysis. Project setup does not claim the story or production plan is ready.
+analysis. Film setup does not claim the story or production plan is ready.
 
-### 1. Script and project readiness
+### 1. Script and film readiness
 
 **Purpose:** Understand the source script, production intent, and major
 unknowns before planning downstream work.
@@ -144,7 +144,7 @@ implemented asset.
 
 ### 4. Consolidated pre-production readiness audit
 
-**Purpose:** Decide whether the project has the right current information and
+**Purpose:** Decide whether the film has the right current information and
 assets to begin production.
 
 **Work:**
@@ -244,15 +244,15 @@ the creator's delivery criteria.
   versions, and any required subtitle/accessibility items.
 - Record the reviewed master path, version, acceptance decision, and any
   outstanding limitations.
-- Archive project materials and record the final completion evidence.
+- Archive film materials and record the final completion evidence.
 
-**Human gate:** The creator accepts the final delivery. The project becomes
+**Human gate:** The creator accepts the final delivery. The film becomes
 `complete` only after this evidence is recorded; passing pre-production is
-not project completion.
+not film completion.
 
 ## Dashboard user workflow
 
-1. **Open project:** select a folder; inspect it read-only first; confirm
+1. **Open film:** select a folder; inspect it read-only first; confirm
    identity and source locations.
 2. **Review discovery:** inspect recognized documents, statuses, parse
    warnings, missing/stale files, and unknown formats.
@@ -267,18 +267,18 @@ not project completion.
    APIs or launch an unapproved run.
 6. **Track runs:** identify and link each Claude session to its work package;
    show running, waiting for input, completed, failed, or stopped when the
-   installed CLI exposes that status; persist a project-local run record.
+   installed CLI exposes that status; persist a film-local run record.
 7. **Review output:** inspect produced/changed paths, source references,
    completion evidence, and conflicts. Mark the work package awaiting review
    until a human verifies it.
 8. **Promote/record result:** after review, record the result and approval
-   using the project's existing authoritative files or an explicitly
+   using the film's existing authoritative files or an explicitly
    approved state update. Do not silently rewrite a brief, worklist, or
    artifact.
 9. **Recompute impact/readiness:** refresh the file inventory and dependency
    view. If a source or decision changed, show affected downstream packages
    and request review where impact is unknown.
-10. **Pause/resume:** persist enough project-local run/checkpoint metadata to
+10. **Pause/resume:** persist enough film-local run/checkpoint metadata to
     resume manually after a long gap, even if Claude Code or the dashboard
     process is no longer running.
 11. **Run production gate:** perform the consolidated pre-production audit;
@@ -291,12 +291,12 @@ not project completion.
 
 ### Required for the first usable release
 
-- Local, creator-only project discovery/opening without overwriting files.
+- Local, creator-only film discovery/opening without overwriting files.
 - A full-film lifecycle view from intake through final delivery, with
   configured/unconfigured stages clearly distinguished.
-- Read and link current Markdown workflow artifacts and ordinary project
+- Read and link current Markdown workflow artifacts and ordinary film
   files; do not parse or index large media payloads by default.
-- Display source-backed project, stage, work-package, decision, artifact,
+- Display source-backed film, stage, work-package, decision, artifact,
   approval, and dependency state.
 - Show why a package is ready/blocked and what could be affected by a
   requirement change.
@@ -307,7 +307,7 @@ not project completion.
   offer manual refresh/linking if the CLI interface is unavailable or
   changes.
 - Persist minimal run mapping, timestamps, checkpoints, and errors inside the
-  project folder. Do not persist full conversations by default.
+  film folder. Do not persist full conversations by default.
 - Provide the mandatory consolidated pre-production readiness audit and
   human go/no-go review.
 - Show conflict/overlap warnings and require human review before promoting
@@ -319,13 +319,13 @@ not project completion.
 - Dashboard-initiated agent dispatch or direct API billing.
 - Unattended creative interviews, approvals, source edits, commits, merges,
   or external notifications.
-- Multi-user accounts, remote hosting, cloud project storage, or role-based
+- Multi-user accounts, remote hosting, cloud film storage, or role-based
   access management.
 - General-purpose scheduling, daemons, guaranteed always-on execution, or
   model sessions that survive machine shutdown.
 - Replacing Claude Code, specialist agents, Blender, editing, sound, capture,
   or other production tools.
-- A database needed to recover project state.
+- A database needed to recover film state.
 
 ## Software and tools
 
@@ -338,15 +338,15 @@ not project completion.
 | Python 3.12 | Local app server (backend) and its tests | Same version as the rest of Mocap Studio (`DEPENDENCIES.md`) |
 | Node.js 22 LTS or newer compatible LTS | Build and test the React UI only | Node 22 is already available here |
 | npm | UI dependencies and build scripts | Already available |
-| Git and GitHub | Version the standalone dashboard source and preserve project history | Already available |
+| Git and GitHub | Version the standalone dashboard source and preserve film history | Already available |
 | Current browser / VS Code forwarded port | Open the local dashboard UI | Already available |
 | TypeScript + React + Vite | Typed local dashboard UI and development server | Proposed app dependencies |
-| Python FastAPI + Pydantic local API service | Scoped filesystem discovery, project records, and read-only Claude status polling | Proposed app dependency (revised 2026-10-11 from Node.js + Fastify) |
+| Python FastAPI + Pydantic local API service | Scoped filesystem discovery, film records, and read-only Claude status polling | Proposed app dependency (revised 2026-10-11 from Node.js + Fastify) |
 | `mocap-contracts` (Harpia-generated) | Messages exchanged with other Mocap Studio applications | Pinned release, as in the other repositories |
 | Markdown parser with GFM table support | Read current worklist/brief tables without ad hoc string parsing | Proposed app dependency |
-| Schema validation (Pydantic) | Validate project-local operational records and CLI output | Proposed app dependency |
+| Schema validation (Pydantic) | Validate film-local operational records and CLI output | Proposed app dependency |
 | pytest (backend) + Vitest/Testing Library (UI) | Tests for parsing and graph rules (backend) and rendering (UI) | Proposed app dependencies |
-| Playwright | End-to-end project-open, worklist, review, and recovery checks | Proposed dev dependency |
+| Playwright | End-to-end film-open, worklist, review, and recovery checks | Proposed dev dependency |
 
 Use exact package versions in the application lockfile when implementation
 starts. Do not install a dependency globally just to make the MVP run.
@@ -357,7 +357,7 @@ starts. Do not install a dependency globally just to make the MVP run.
 |---|---|---|
 | Claude Code CLI (`claude`) | User-authenticated Claude sessions and interactive Agent View | Install/update separately; dashboard checks availability and version |
 | Claude subscription login | Start agents without Anthropic API-key billing | The dashboard cannot authenticate as the creator or bypass Claude's UI/permissions |
-| Project custom-agent files | Supply the specialist role/instructions used by each handoff | Canonical `.claude/agents/` files in `mocap-preprod` (`.github/agents/` are generated Copilot adapters) |
+| Film custom-agent files | Supply the specialist role/instructions used by each handoff | Canonical `.claude/agents/` files in `mocap-preprod` (`.github/agents/` are generated Copilot adapters) |
 
 The current implementation environment has Claude Code CLI `2.1.235`.
 Version compatibility must be checked at runtime rather than assuming this
@@ -376,7 +376,7 @@ The dashboard organizes these tools; it does not replace them.
 - **Blender and the Mocap Studio repositories** are the known animation,
   capture, and processing ecosystem. The registered repositories include
   `mocap-blender`, `mocap-capture`, `mocap-extract`, and related support
-  projects. Exact per-project requirements depend on the production plan and
+  repositories. Exact per-repository requirements depend on the production plan and
   target machine.
 - **Audio utilities:** FFmpeg, Sox, or Audacity may be used for conversion
   and listening. A production DAW and recording/mixing workflow are not
@@ -409,7 +409,7 @@ generative-audio models just to build the dashboard.
 
 The MVP is not accepted until these cases pass:
 
-1. Open the pilot film project read-only; show existing brief, worklist, specialist outputs,
+1. Open the pilot film read-only; show existing brief, worklist, specialist outputs,
    and source document references without rewriting them.
 2. Show approved direction separately from provisional options, deferred
    decisions, and open questions.
@@ -439,7 +439,7 @@ The MVP is not accepted until these cases pass:
   decision record (Python backend + React UI, decided 2026-10-11).
 - Confirm the first Claude CLI status adapter against the installed CLI; the
   implementation must version-check and retain the manual fallback.
-- Define write-scope conflict behavior for non-Git project folders.
+- Define write-scope conflict behavior for non-Git film folders.
 - Define the pilot film's production execution packages and qualified owners for
   asset types not covered by the current pre-production specialists. This is
   required to use the workflow to reach the movie, but not to implement the

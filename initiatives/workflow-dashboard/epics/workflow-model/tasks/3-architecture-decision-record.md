@@ -5,7 +5,7 @@
   - **In:** Accepted workflow state and user-journey/automation contracts.
   - **Requires:** Evaluation of the actual target environments, including
     Remote VS Code/WSL2, Claude Code subscription authentication and
-    documented agent-session monitoring, project-root access, future
+    documented agent-session monitoring, film-root access, future
     collaborator handoff, persistence, security, and operating/maintenance
     cost.
   - **Delivers:** `spec/architecture-decision-record.md` comparing viable

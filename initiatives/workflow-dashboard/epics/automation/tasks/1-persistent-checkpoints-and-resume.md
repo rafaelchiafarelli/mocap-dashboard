@@ -2,10 +2,10 @@
 
 - **Depends on:** workflow-model/1, workflow-model/3, dashboard/1
 - **Contract:**
-  - **In:** A project/work-package state and a user-started operation or
+  - **In:** A film/work-package state and a user-started operation or
     workflow session.
   - **Requires:** Approved storage and lifecycle design; explicit identity
-    for project, task, session/operation, and checkpoint.
+    for film, task, session/operation, and checkpoint.
   - **Delivers:** Durable checkpoint and resume contract plus an initial
     implementation or proof of feasibility, as specified by the architecture
     decision. A user can recover the last known state and continue manually.

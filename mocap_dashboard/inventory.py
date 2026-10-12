@@ -1,4 +1,4 @@
-"""Read-only Markdown inventory of a selected film project folder."""
+"""Read-only Markdown inventory of a selected film folder."""
 
 import os
 from dataclasses import asdict, dataclass, field
@@ -10,7 +10,7 @@ MAX_MARKDOWN_FILES = 500
 IGNORED_DIRECTORIES = frozenset({".git", "node_modules", "dist", "build", ".venv", "venv", "__pycache__"})
 
 
-class ProjectScanError(Exception):
+class FilmScanError(Exception):
     """The selected folder can't be inventoried; the message is shown to the user."""
 
 
@@ -23,7 +23,7 @@ class MarkdownDocument:
 
 
 @dataclass
-class ProjectInventory:
+class FilmInventory:
     title: str
     documents: list[MarkdownDocument] = field(default_factory=list)
     scannedAt: str = ""
@@ -58,15 +58,15 @@ def category_for(name: str) -> str:
     return "Other Markdown"
 
 
-def scan_project(selected_path: str) -> ProjectInventory:
+def scan_film(selected_path: str) -> FilmInventory:
     try:
         root = Path(selected_path).resolve(strict=True)
     except (OSError, RuntimeError):
-        raise ProjectScanError("The selected project folder does not exist or cannot be accessed.") from None
+        raise FilmScanError("The selected film folder does not exist or cannot be accessed.") from None
     if not root.is_dir():
-        raise ProjectScanError("Select a folder, not a file.")
+        raise FilmScanError("Select a folder, not a file.")
 
-    inventory = ProjectInventory(title=root.name or str(root))
+    inventory = FilmInventory(title=root.name or str(root))
     state = {"limit": False, "depth": False}
 
     def visit(directory: Path, depth: int) -> None:
@@ -107,7 +107,7 @@ def scan_project(selected_path: str) -> ProjectInventory:
     try:
         visit(root, 0)
     except OSError as error:
-        raise ProjectScanError(f"Could not finish the read-only document inventory: {error.strerror or error}") from None
+        raise FilmScanError(f"Could not finish the read-only document inventory: {error.strerror or error}") from None
 
     if state["depth"]:
         inventory.warnings.append(f"Some Markdown files may be deeper than the {MAX_DEPTH}-level scan limit.")

@@ -8,7 +8,7 @@ interface MarkdownDocument {
   modifiedAt: string
 }
 
-interface ProjectInventory {
+interface FilmInventory {
   title: string
   documents: MarkdownDocument[]
   scannedAt: string
@@ -30,9 +30,9 @@ function formatBytes(bytes: number): string {
 }
 
 function App() {
-  const [projectPath, setProjectPath] = useState('')
+  const [filmRoot, setFilmRoot] = useState('')
   const [token, setToken] = useState('')
-  const [inventory, setInventory] = useState<ProjectInventory | null>(null)
+  const [inventory, setInventory] = useState<FilmInventory | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -54,25 +54,25 @@ function App() {
     }
   }, [])
 
-  async function inspectProject(event: FormEvent<HTMLFormElement>) {
+  async function inspectFilm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setLoading(true)
     setError('')
     setInventory(null)
 
     try {
-      const response = await fetch('/api/project/inspect', {
+      const response = await fetch('/api/film/inspect', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
           'x-workflow-token': token,
         },
-        body: JSON.stringify({ path: projectPath }),
+        body: JSON.stringify({ path: filmRoot }),
       })
       if (!response.ok) throw new Error(await readError(response))
-      setInventory((await response.json()) as ProjectInventory)
+      setInventory((await response.json()) as FilmInventory)
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Project inventory failed.')
+      setError(cause instanceof Error ? cause.message : 'Film inventory failed.')
     } finally {
       setLoading(false)
     }
@@ -94,31 +94,31 @@ function App() {
         <p className="intro-copy">See what is ready, what is blocked, and what still needs to happen — from script through final delivery.</p>
       </section>
 
-      <section className="project-panel" aria-labelledby="project-heading">
+      <section className="film-panel" aria-labelledby="film-heading">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">PROJECT SETUP</p>
-            <h2 id="project-heading">Start with your project folder</h2>
+            <p className="eyebrow">FILM SETUP</p>
+            <h2 id="film-heading">Start with your film folder</h2>
           </div>
           <span className="read-only-tag">READ ONLY</span>
         </div>
-        <form className="project-form" onSubmit={inspectProject}>
-          <label htmlFor="project-path">Absolute path to a film project folder</label>
+        <form className="film-form" onSubmit={inspectFilm}>
+          <label htmlFor="film-root">Absolute path to a film folder</label>
           <div className="input-row">
             <input
-              id="project-path"
-              value={projectPath}
-              onChange={(event) => setProjectPath(event.target.value)}
+              id="film-root"
+              value={filmRoot}
+              onChange={(event) => setFilmRoot(event.target.value)}
               placeholder="/home/you/films/my-film"
               autoComplete="off"
               spellCheck={false}
               required
             />
             <button type="submit" disabled={loading || !token}>
-              {loading ? 'Scanning…' : 'Inspect project'}
+              {loading ? 'Scanning…' : 'Inspect film'}
             </button>
           </div>
-          <p className="helper-text">Only Markdown document names and file metadata are inventoried. No project files are changed.</p>
+          <p className="helper-text">Only Markdown document names and file metadata are inventoried. No film files are changed.</p>
         </form>
       </section>
 
@@ -128,7 +128,7 @@ function App() {
         <section className="results" aria-live="polite">
           <div className="result-heading">
             <div>
-              <p className="eyebrow">PROJECT INVENTORY</p>
+              <p className="eyebrow">FILM INVENTORY</p>
               <h2>{inventory.title}</h2>
               <p className="muted">Scanned {new Date(inventory.scannedAt).toLocaleString()}</p>
             </div>
@@ -163,7 +163,7 @@ function App() {
 
       <footer className="footer">
         <span>FRAME WORKFLOW</span>
-        <span>THE PROJECT FOLDER REMAINS THE SOURCE OF TRUTH</span>
+        <span>THE FILM FOLDER REMAINS THE SOURCE OF TRUTH</span>
       </footer>
     </main>
   )

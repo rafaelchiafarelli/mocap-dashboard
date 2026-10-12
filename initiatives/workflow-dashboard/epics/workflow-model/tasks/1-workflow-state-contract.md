@@ -3,23 +3,23 @@
 - **Depends on:** —
 - **Contract:**
   - **In:** Current workhorse agents and documentation; representative
-    project artifacts such as readiness report, session plan, creative brief,
+    film artifacts such as readiness report, session plan, creative brief,
     and production worklist.
   - **Requires:** Read-only examination of the current workflow. Do not
-    modify any film project's state or assume a specific film.
+    modify any film's state or assume a specific film.
   - **Delivers:** `spec/workflow-state-contract.md` defining the minimum
-    project, stage, artifact, decision, work-package, assignment, dependency,
+    film, stage, artifact, decision, work-package, assignment, dependency,
     review, and handoff fields and their allowed states. Artifacts must
     distinguish analysis/memo, structured production specification, and
     implementation asset, with required format/type, evidence references,
     approval state, and producer/owner where known. Decision records must
     distinguish must-decide-before-next-milestone from safely-deferred
     choices and include a revisit trigger and consequence for deferrals.
-- **Pre-work:** Inventory the current workflow stages and project artifacts.
+- **Pre-work:** Inventory the current workflow stages and film artifacts.
 - **Out of scope:** Selecting a database/framework; implementing a dashboard
-  or hooks; inventing project decisions.
+  or hooks; inventing film decisions.
 - **Acceptance checks:**
-  - The lifecycle represents project stages and their criteria; the initial
+  - The lifecycle represents film stages and their criteria; the initial
     workflow defines one mandatory consolidated readiness audit before
     production begins. Earlier interim checks may be surfaced, but formal
     readiness gates at every stage boundary are not required.
@@ -44,7 +44,7 @@
   - Missing, stale, partial, or conflicting artifacts can be represented
     without being reported as complete.
   - A future collaborator can determine the next valid action from the
-    project records without relying on tacit creator knowledge.
+    film records without relying on tacit creator knowledge.
 - **Tests:** Creator review against the current readiness, session-plan,
   creative-brief, and production-worklist formats; fixture review for
   missing, stale, partial, and conflicting inputs.

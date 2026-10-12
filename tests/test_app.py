@@ -11,11 +11,11 @@ def client() -> TestClient:
     return TestClient(create_app(session_token="test-session-token", serve_frontend=False))
 
 
-def test_inventories_project_only_with_session_token(tmp_path: Path) -> None:
+def test_inventories_film_only_with_session_token(tmp_path: Path) -> None:
     (tmp_path / "creative-brief.md").write_text("# Brief\n")
 
     response = client().post(
-        "/api/project/inspect",
+        "/api/film/inspect",
         headers={**LOCAL, "x-workflow-token": "test-session-token"},
         json={"path": str(tmp_path)},
     )
@@ -27,7 +27,7 @@ def test_inventories_project_only_with_session_token(tmp_path: Path) -> None:
 
 
 def test_rejects_missing_token(tmp_path: Path) -> None:
-    response = client().post("/api/project/inspect", headers=LOCAL, json={"path": str(tmp_path)})
+    response = client().post("/api/film/inspect", headers=LOCAL, json={"path": str(tmp_path)})
     assert response.status_code == 403
 
 
@@ -43,7 +43,7 @@ def test_rejects_non_local_host() -> None:
 
 def test_rejects_blank_path() -> None:
     response = client().post(
-        "/api/project/inspect",
+        "/api/film/inspect",
         headers={**LOCAL, "x-workflow-token": "test-session-token"},
         json={"path": "   "},
     )
