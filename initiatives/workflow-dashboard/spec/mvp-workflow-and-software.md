@@ -400,7 +400,7 @@ generative-audio models just to build the dashboard.
 - No SQLite/PostgreSQL or cloud database.
 - No hosting service or public internet endpoint.
 - No Anthropic API key or Claude Agent SDK.
-- No Docker requirement.
+- Docker is required: the dashboard runs in a container (decided 2026-10-12).
 - No background daemon or external reminder provider.
 - No new sound-generation model install unless the creator approves score
   exploration.

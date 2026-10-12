@@ -3,7 +3,8 @@
 ## Status
 
 **Proposed for creator review.** Accepted parts: Python backend on FastAPI +
-Pydantic with the React UI kept (creator decision 2026-10-11).
+Pydantic with the React UI kept (creator decision 2026-10-11); runs in
+Docker, published on loopback only (creator decision 2026-10-12).
 
 This draft selects a local web app, Claude Code Agent View integration, and
 project-local JSON operational records as the recommended MVP baseline.
@@ -230,7 +231,7 @@ CLI before declaring the provider integration supported.
 
 ### Not required
 
-- SQL database, cloud host, shared remote storage, Docker, notification
+- SQL database, cloud host, shared remote storage, notification
   service, direct Claude API, Anthropic API key, or always-on machine.
 - A production editor/audio suite bundled into the dashboard.
 - Install of AudioCraft or ComfyUI unless creator-approved sound exploration

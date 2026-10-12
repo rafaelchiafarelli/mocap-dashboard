@@ -1,6 +1,7 @@
 """Loopback-only API that serves the React UI and inspects project folders."""
 
 import hmac
+import os
 import secrets
 from pathlib import Path
 
@@ -11,7 +12,8 @@ from pydantic import BaseModel, Field, ValidationError
 from .inventory import ProjectScanError, scan_project
 
 BODY_LIMIT = 16 * 1024
-DIST = Path(__file__).resolve().parent.parent / "dist"
+# Built UI; the container points this at its copy of the Vite build.
+DIST = Path(os.environ.get("MOCAP_DASHBOARD_DIST", Path(__file__).resolve().parent.parent / "dist"))
 
 _LOCAL_HOSTS = ("localhost", "127.0.0.1", "[::1]")
 _LOCAL_PORTS = (4174, 5173)  # API and Vite dev server
