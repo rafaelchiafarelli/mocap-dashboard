@@ -28,6 +28,12 @@ make up PROJECTS=/path/to/films  # folder holding the film projects (default /mn
 
 The film projects folder is mounted at the same path inside the container, so
 you type the same path in the UI. The port is published on loopback only.
+
+The image includes the **Claude Code CLI** (pinned to the host's version,
+`CLAUDE_CODE_VERSION` build arg), used for agent-run status
+(`claude agents --json`). `make up` mounts your existing Claude login
+(`~/.claude`, `~/.claude.json`) and shares the host's process namespace
+(`--pid=host`), because the CLI only lists sessions whose process it can see.
 Decided 2026-10-12: the dashboard runs in Docker, like the other Python repos.
 
 ## Develop locally
