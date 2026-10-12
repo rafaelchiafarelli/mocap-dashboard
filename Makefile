@@ -37,8 +37,17 @@ image:
 	docker build -t $(IMAGE) .
 
 # The supported way to run the dashboard: published on loopback only.
+# The Claude Code CLI inside the image uses your existing login: your Claude
+# config is mounted at the same path, read and refreshed by the CLI itself.
+# --pid=host: `claude agents --json` only lists sessions whose process it can
+# see, so the container shares the host's process namespace (it can see your
+# processes, which is acceptable for this loopback-only, single-user tool).
 up: image
 	docker run --rm -it --user $$(id -u):$$(id -g) \
 		-p 127.0.0.1:4174:4174 \
 		-v $(PROJECTS):$(PROJECTS) \
+		--pid=host \
+		-e HOME=$$HOME \
+		-v $$HOME/.claude:$$HOME/.claude \
+		-v $$HOME/.claude.json:$$HOME/.claude.json \
 		$(IMAGE)

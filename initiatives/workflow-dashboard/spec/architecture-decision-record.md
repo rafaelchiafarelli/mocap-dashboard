@@ -4,7 +4,8 @@
 
 **Proposed for creator review.** Accepted parts: Python backend on FastAPI +
 Pydantic with the React UI kept (creator decision 2026-10-11); runs in
-Docker, published on loopback only (creator decision 2026-10-12).
+Docker, published on loopback only, with the Claude Code CLI installed in
+the image and the user's login mounted (creator decisions 2026-10-12).
 
 This draft selects a local web app, Claude Code Agent View integration, and
 project-local JSON operational records as the recommended MVP baseline.
