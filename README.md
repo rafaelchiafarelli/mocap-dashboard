@@ -15,10 +15,22 @@ without changing or interpreting their contents.
 
 ## Requirements
 
-- Python 3.12
+- Docker (to run it)
+- Python 3.12 (to develop the backend)
 - Node.js 22 or newer and npm (to build the UI only)
 
-## Run locally
+## Run (Docker, the supported way)
+
+```sh
+make up                          # build the image, serve on http://127.0.0.1:4174
+make up PROJECTS=/path/to/films  # folder holding the film projects (default /mnt/g)
+```
+
+The film projects folder is mounted at the same path inside the container, so
+you type the same path in the UI. The port is published on loopback only.
+Decided 2026-10-12: the dashboard runs in Docker, like the other Python repos.
+
+## Develop locally
 
 ```sh
 make venv            # Python backend + test deps in .venv
