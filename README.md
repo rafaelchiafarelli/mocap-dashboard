@@ -4,31 +4,32 @@ A local-first film workflow dashboard. The project folder remains the durable
 source of truth; this first application slice inventories Markdown documents
 without changing or interpreting their contents.
 
-## Stack status
+## Stack
 
-The backend is moving to **Python** (decided 2026-10-11, see the architecture
-decision record in `initiatives/workflow-dashboard/spec/`). The
-React UI under `src/` stays. The current Node.js/Fastify server in
-`src/server/` is the first Copilot slice, and a Python port will replace it.
-Don't extend it. Messages to other Mocap Studio applications go through
-Harpia contracts in `mocap-contracts`.
+- **Backend: Python 3.12, FastAPI** (`mocap_dashboard/`), decided 2026-10-11.
+  The architecture decision record is in `initiatives/workflow-dashboard/spec/`.
+- **UI: React + Vite** (`src/`), the only non-Python part. It talks only to its
+  own backend.
+- Messages to other Mocap Studio applications go through Harpia contracts in
+  `mocap-contracts`. This first slice doesn't exchange any yet.
 
 ## Requirements
 
-- Node.js 22 or newer
-- npm
+- Python 3.12
+- Node.js 22 or newer and npm (to build the UI only)
 
 ## Run locally
 
 ```sh
+make venv            # Python backend + test deps in .venv
 npm ci
-npm run dev
+make dev             # API on 127.0.0.1:4174 + Vite dev server on :5173
+# or: make run       # build the UI and serve it from the API on :4174
 ```
 
-Open the loopback URL printed by Vite. Enter the absolute path to a film
-project folder and select **Inspect project**. The inventory is read-only and
-limited to Markdown files, five directory levels deep, with common generated
-directories excluded.
+Open the loopback URL. Enter the absolute path to a film project folder and
+select **Inspect project**. The inventory is read-only and limited to Markdown
+files, five directory levels deep, with common generated directories excluded.
 
 The first slice does not infer task status, readiness, or completion from
 filenames. It does not initialize `.film-workflow/` or persist selected
@@ -38,8 +39,7 @@ and real project-document formats.
 ## Verification
 
 ```sh
-npm test
-npm run typecheck
+make test            # pytest (backend), vitest + typecheck (UI)
 npm run build
 ```
 
