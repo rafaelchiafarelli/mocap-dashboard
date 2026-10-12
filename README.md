@@ -1,7 +1,9 @@
 # Frame Workflow Dashboard
 
-A local-first film workflow dashboard. The project folder remains the durable
-source of truth; this first application slice inventories Markdown documents
+A local-first dashboard for the **workhorse**, the workflow that takes a film
+from script to delivery. It is part of the **project** (the Mocap Studio code
+and agents) and works on one **film** at a time, given its **film root** (the
+film's folder). The film folder remains the durable source of truth; this first application slice inventories Markdown documents
 without changing or interpreting their contents.
 
 ## Stack
@@ -23,10 +25,10 @@ without changing or interpreting their contents.
 
 ```sh
 make up                          # build the image, serve on http://127.0.0.1:4174
-make up PROJECTS=/path/to/films  # folder holding the film projects (default /mnt/g)
+make up FILMS=/path/to/films  # folder holding the films (default /mnt/g)
 ```
 
-The film projects folder is mounted at the same path inside the container, so
+The films folder is mounted at the same path inside the container, so
 you type the same path in the UI. The port is published on loopback only.
 
 The image includes the **Claude Code CLI** (pinned to the host's version,
@@ -45,14 +47,14 @@ make dev             # API on 127.0.0.1:4174 + Vite dev server on :5173
 # or: make run       # build the UI and serve it from the API on :4174
 ```
 
-Open the loopback URL. Enter the absolute path to a film project folder and
-select **Inspect project**. The inventory is read-only and limited to Markdown
+Open the loopback URL. Enter the absolute path to a film folder and
+select **Inspect film**. The inventory is read-only and limited to Markdown
 files, five directory levels deep, with common generated directories excluded.
 
 The first slice does not infer task status, readiness, or completion from
 filenames. It does not initialize `.film-workflow/` or persist selected
-projects. Those behaviors need to follow the accepted project state contract
-and real project-document formats.
+films. Those behaviors need to follow the accepted film state contract
+and real film-document formats.
 
 ## Verification
 
@@ -62,5 +64,5 @@ npm run build
 ```
 
 The API binds to `127.0.0.1` by default. It accepts local dashboard origins
-only and requires a per-process token for project inspection. Do not expose
+only and requires a per-process token for film inspection. Do not expose
 the development server to a network.

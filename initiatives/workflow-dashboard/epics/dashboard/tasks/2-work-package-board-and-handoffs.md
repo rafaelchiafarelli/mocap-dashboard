@@ -2,7 +2,7 @@
 
 - **Depends on:** dashboard/1 and workflow-model/1
 - **Contract:**
-  - **In:** A project with a parsed or explicitly entered production worklist.
+  - **In:** A film with a parsed or explicitly entered production worklist.
   - **Requires:** Stable task IDs, one assigned agent per task, dependency
     links, statuses, concrete deliverable contracts and types, and the
     approval distinctions in the workflow-state contract. Decision items
@@ -19,7 +19,7 @@
   - A task is shown as ready only when its declared dependencies and review
     gates are satisfied.
   - Users can distinguish agent output awaiting creator approval from
-    approved project direction.
+    approved film direction.
   - The task view presents its source files, concrete output format,
     completion test, approval state, implementation/execution dependency,
     and resume context.

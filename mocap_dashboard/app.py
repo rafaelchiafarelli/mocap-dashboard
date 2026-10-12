@@ -1,4 +1,4 @@
-"""Loopback-only API that serves the React UI and inspects project folders."""
+"""Loopback-only API that serves the React UI and inspects film folders."""
 
 import hmac
 import os
@@ -9,7 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field, ValidationError
 
-from .inventory import ProjectScanError, scan_project
+from .inventory import FilmScanError, scan_film
 
 BODY_LIMIT = 16 * 1024
 # Built UI; the container points this at its copy of the Vite build.
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = frozenset(f"{host}:{port}" for host in _LOCAL_HOSTS for port in 
 ALLOWED_ORIGINS = frozenset(f"http://{host}" for host in ALLOWED_HOSTS)
 
 
-class ProjectRequest(BaseModel):
+class FilmRequest(BaseModel):
     path: str = Field(min_length=1, max_length=4096)
 
 
@@ -50,7 +50,7 @@ def create_app(session_token: str | None = None, serve_frontend: bool = True) ->
     async def session() -> JSONResponse:
         return JSONResponse({"token": token}, headers={"cache-control": "no-store"})
 
-    @app.post("/api/project/inspect")
+    @app.post("/api/film/inspect")
     async def inspect(request: Request) -> JSONResponse:
         supplied = request.headers.get("x-workflow-token", "")
         if not hmac.compare_digest(supplied.encode(), token.encode()):
@@ -59,15 +59,15 @@ def create_app(session_token: str | None = None, serve_frontend: bool = True) ->
         if len(body) > BODY_LIMIT:
             return _error(413, "Request body is too large.")
         try:
-            data = ProjectRequest.model_validate_json(body)
+            data = FilmRequest.model_validate_json(body)
             path = data.path.strip()
             if not path:
                 raise ValueError
         except (ValidationError, ValueError):
-            return _error(400, "Provide a project folder path (up to 4096 characters).")
+            return _error(400, "Provide a film folder path (up to 4096 characters).")
         try:
-            return JSONResponse(scan_project(path).to_json())
-        except ProjectScanError as error:
+            return JSONResponse(scan_film(path).to_json())
+        except FilmScanError as error:
             return _error(400, str(error))
 
     @app.api_route("/api/{rest:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])

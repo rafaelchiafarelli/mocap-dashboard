@@ -15,9 +15,9 @@
   unsafe shell commands; always-on service deployment without an explicit
   operational decision.
 - **Acceptance checks:**
-  - Reminders are opt-in, bounded, cancelable, and identify their project,
+  - Reminders are opt-in, bounded, cancelable, and identify their film,
     task, last checkpoint, and next action without leaking unrelated
-    project content.
+    film content.
   - Failures are visible and do not produce success-shaped status.
   - The feature degrades to manual resume when the adapter/provider is
     unavailable.

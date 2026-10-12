@@ -3,7 +3,7 @@
 - **Depends on:** workflow-model/1
 - **Contract:**
   - **In:** `spec/workflow-state-contract.md` and the current agent workflow.
-  - **Requires:** Review of project start, analysis, multi-session section
+  - **Requires:** Review of film start, analysis, multi-session section
     work, consolidation, creator interview, worklist execution, transition
     from analysis to structured production specification to approved
     implementation, handoff, pause, resume, and collaborator onboarding.
@@ -18,7 +18,7 @@
 - **Acceptance checks:**
   - Every journey identifies its user, starting condition, action, resulting
     state, handoff, and recovery path.
-  - The policy distinguishes a durable project-local checkpoint from a
+  - The policy distinguishes a durable film-local checkpoint from a
     continuously running AI session; it does not imply that editor sessions
     or models stay available indefinitely.
   - Agent dispatch is explicitly user-authorized in the supported agent

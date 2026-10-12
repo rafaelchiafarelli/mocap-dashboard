@@ -4,7 +4,7 @@
 recoverable and visible, using reminders or supported automation hooks where
 safe and feasible.
 
-**Depends on:** workflow-model epic and dashboard project/task identifiers.
+**Depends on:** workflow-model epic and dashboard film/task identifiers.
 
 **Safety boundary:** “Long-running” means durable state, resumable work,
 bounded background operations, or reminders—not a promise that an AI chat,

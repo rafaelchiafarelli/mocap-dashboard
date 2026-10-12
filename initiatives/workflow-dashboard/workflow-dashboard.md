@@ -4,11 +4,11 @@
 creator take a film from source material through pre-production, production,
 post-production, and delivery. Make current work, evidence, dependencies,
 decisions, approvals, agent activity, and next actions visible, and explain
-why the project is in its current state and what a changed requirement may
+why the film is in its current state and what a changed requirement may
 affect.
 
 **Problem:** The current workflow is described across custom agents and
-project-specific files. A creator must remember which agent to run, which
+film-specific files. A creator must remember which agent to run, which
 files to provide, what stage is complete, which work packages can run in
 parallel, what evidence supports each status, what decisions need approval,
 and how a changed requirement affects downstream work.
@@ -18,7 +18,7 @@ may be added after the single-user workflow and access boundaries are proven.
 
 ## MVP scope
 
-- Creator-only, local-first pilot using a real film project as the acceptance
+- Creator-only, local-first pilot using a real film as the acceptance
   case. Design records so a future collaborator can understand them, but do
   not require accounts, hosted collaboration, or remote storage in the MVP.
 - Represent the full film lifecycle through final delivery. Stage templates
@@ -30,7 +30,7 @@ may be added after the single-user workflow and access boundaries are proven.
 
 - Make the workflow discoverable and usable without relying on the creator to
   remember its sequence.
-- Support starting/opening a project from a selected project root and tracking its
+- Support starting/opening a film from a selected film root and tracking its
   workflow stage, required artifacts, work packages, dependencies, assigned
   specialist agent, status, required output type, approval state, and next
   action.
@@ -51,7 +51,7 @@ may be added after the single-user workflow and access boundaries are proven.
   back to attention over a long period.
 - Keep future human ownership, review, and approval visible in the data model;
   multi-user access control and shared editing are post-MVP.
-- Keep project-specific materials in each film project's root and the
+- Keep film-specific materials in each film root and the
   reusable dashboard/workflow definitions in this workhorse.
 
 ## Out of scope
@@ -70,13 +70,13 @@ may be added after the single-user workflow and access boundaries are proven.
 - Choosing a specific dashboard framework, database, hosting model,
   notification provider, or agent platform before the architecture task
   evaluates the requirements and trade-offs.
-- Replacing the specialist agents or the project's source materials.
+- Replacing the specialist agents or the film's source materials.
 
 ## Initiative gate
 
 The initiative is complete when a representative user can:
 
-1. Start or open a film workflow from a project root using clear onboarding.
+1. Start or open a film workflow from a film root using clear onboarding.
 2. See the current stage, required and completed artifacts, open decisions,
    work packages, their single assigned agent, named deliverable type,
    dependencies, approval state, and next available action.
@@ -99,7 +99,7 @@ The initiative is complete when a representative user can:
    relying on the original creator's memory.
 
 The MVP gate requires documented evaluation of the intended editor/agent
-environment, access boundaries, project-local persistence, and recovery. It
+environment, access boundaries, film-local persistence, and recovery. It
 also requires a consolidated pre-production readiness audit before the
 creator authorizes production entry. Interim checks may be shown without
 adding mandatory stage gates. Production/post-production definitions and
@@ -111,7 +111,7 @@ decisions.
 
 1. **workflow-model** — review the lifecycle/state contract, creator journey,
    source-of-truth model, Claude Code integration boundary, and architecture.
-2. **dashboard** — implement project discovery, lifecycle/progress views,
+2. **dashboard** — implement film discovery, lifecycle/progress views,
    dependency/change-impact view, and work-package handoffs/session tracking.
 3. **automation** — implement durable checkpoints and supported pause/resume
    behavior. Reminders, hooks, and unattended operations remain later scope
@@ -146,9 +146,9 @@ written to answer them.
    central only after the first visual memo, and that produced a supplementary
    specification task. Decisions need IDs and explicit links to the work that
    depends on them, so the dashboard can show what a change affects.
-7. **A project folder without version control loses history.** The pilot's
+7. **A film folder without version control loses history.** The pilot's
    worklist recorded "commit unavailable" against delivered work. The
-   dashboard must work on non-git projects, but there it forbids parallel
+   dashboard must work on non-git films, but there it forbids parallel
    writes to shared files and says that rollback is unavailable.
 
 See `epics/README.md` for dependency and acceptance order. Each task file

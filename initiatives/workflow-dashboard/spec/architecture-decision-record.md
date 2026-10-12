@@ -8,24 +8,24 @@ Docker, published on loopback only, with the Claude Code CLI installed in
 the image and the user's login mounted (creator decisions 2026-10-12).
 
 This draft selects a local web app, Claude Code Agent View integration, and
-project-local JSON operational records as the recommended MVP baseline.
+film-local JSON operational records as the recommended MVP baseline.
 
 ## Context
 
-The dashboard must let a creator inspect and guide a film project stored in a
-project folder. That folder is the sole durable source of truth. The product
+The dashboard must let a creator inspect and guide a film stored in a
+film folder. That folder is the sole durable source of truth. The product
 must visualize the path from source/script through final film delivery,
 prepare bounded work handoffs, track multiple Claude sessions, and audit
 pre-production readiness. The creator wants to use a Claude subscription,
 not pay for application-level Anthropic API access.
 
-The existing project files are primarily Markdown and media/production
+The existing film files are primarily Markdown and media/production
 artifacts. The app must not silently rewrite them or require a separate
-database to reconstruct project state.
+database to reconstruct film state.
 
 ## Decision drivers
 
-1. Project folder remains authoritative and portable.
+1. Film folder remains authoritative and portable.
 2. Works in the current Windows/WSL2 + VS Code Remote workflow.
 3. Supports a local single-user MVP before multi-user hosting.
 4. Does not require Anthropic API-key billing.
@@ -40,15 +40,15 @@ database to reconstruct project state.
 
 ### A. Local web application + Claude Code Agent View — recommended
 
-- Run a local Python service in the same WSL environment as the project
+- Run a local Python service in the same WSL environment as the film
   folder and Claude Code CLI.
 - Serve a React dashboard on localhost and use VS Code's forwarded port or a
   local browser to display it.
-- Read project files through an explicit project-root boundary.
+- Read film files through an explicit film-root boundary.
 - Let the creator dispatch runs inside Claude Code's interactive Agent View.
-- Read session state using documented `claude agents --json --cwd <project>
+- Read session state using documented `claude agents --json --cwd <film>
   --all` output; persist only the selected task/session mapping and minimal
-  run/checkpoint state inside the project folder.
+  run/checkpoint state inside the film folder.
 - Prepare, display, and copy a bounded task handoff; do not automate
   unattended agent dispatch or attempt to accept permissions for the user.
 
@@ -84,7 +84,7 @@ and preserves a simpler editor-independent core.
 
 **Deferred:** Requires shared storage, authentication, authorization,
 deployment, backups, network security, and conflict resolution. This is not
-needed for the creator-only pilot and would weaken the simple project-folder
+needed for the creator-only pilot and would weaken the simple film-folder
 source-of-truth model unless designed deliberately later.
 
 ## Proposed architecture
@@ -98,7 +98,7 @@ The dashboard is a separate application repository mounted at
   every other Mocap Studio application; the React UI is kept. This replaces the
   earlier Node.js/Fastify proposal.
 - One local Python 3.12 service serves the built UI and a narrow local API
-  (FastAPI + Pydantic for validated routes for project discovery, parsed
+  (FastAPI + Pydantic for validated routes for film discovery, parsed
   views, and run-status snapshots).
 - React + Vite (TypeScript) provides the browser UI. It is the only non-Python
   part of the dashboard and talks only to its own backend.
@@ -111,46 +111,46 @@ The dashboard is a separate application repository mounted at
 - Protect local API mutations with a per-launch session token and same-origin
   checks; validate host/origin headers, disable cross-origin access, and do
   not treat loopback binding alone as authorization.
-- The user explicitly selects one project root; all project file operations
+- The user explicitly selects one film root; all film file operations
   are resolved and checked against that root.
 
-### Project data and persistence
+### Film data and persistence
 
-- Existing project-owned files remain the authority for their own content:
+- Existing film-owned files remain the authority for their own content:
   creative brief for creative direction, worklist for packages and statuses,
   artifact files for deliverables, and source materials for evidence.
 - Dashboard-owned operational records live under one versioned hidden
-  directory in the project root: `.film-workflow/`. Use JSON records with a
-  `schemaVersion` field; the initial layout is `project.json`,
-  `runs/<run-id>.json`, and `audits/<audit-id>.md`. `project.json` stores
-  project identity and paths to canonical documents, not copies of decisions
+  directory in the film root: `.film-workflow/`. Use JSON records with a
+  `schemaVersion` field; the initial layout is `film.json`,
+  `runs/<run-id>.json`, and `audits/<audit-id>.md`. `film.json` stores
+  film identity and paths to canonical documents, not copies of decisions
   or work-package content. A run record stores only the task/session
   association, observed status/timestamps, checkpoint and changed-path
   references, and surfaced errors. An audit report links to source evidence.
   Do not duplicate full briefs, conversations, or agent output.
 - No database is required. Derived indexes are in-memory, disposable, and
-  rebuildable from the project files and `.film-workflow/` records.
+  rebuildable from the film files and `.film-workflow/` records.
 - Every operational record has a schema version. Unsupported or malformed
   records produce a visible error and must not be silently reset.
-- Before first write, inspect the project in read-only mode and ask for
+- Before first write, inspect the film in read-only mode and ask for
   explicit approval to initialize the operational directory.
 - Avoid logging API credentials, full private prompts, full transcripts, or
   unrelated file contents.
 
 ### Markdown and artifact discovery
 
-- Parse only documented project workflow formats and configured roots.
+- Parse only documented film workflow formats and configured roots.
 - Use a Markdown parser with GitHub-Flavored Markdown table support rather
   than bespoke splitting on pipe characters.
 - Treat unknown status vocabulary as `needs-review`.
-- Keep project-relative paths as references; do not embed absolute local
+- Keep film-relative paths as references; do not embed absolute local
   paths in portable state where avoidable.
 - Inventory large media by path, type, size, and modification metadata only;
   do not ingest media payloads by default.
-- Never follow a symlink outside the user-approved project root without an
+- Never follow a symlink outside the user-approved film root without an
   explicit authorization step.
 - Validate every path after resolution and before read/write; reject traversal,
-  symlink escapes, and paths outside the selected project root.
+  symlink escapes, and paths outside the selected film root.
 
 ### Claude integration and agent tracking
 
@@ -167,7 +167,7 @@ The dashboard is a separate application repository mounted at
 - The user links a discovered Claude session to a task; do not guess from
   free-form names or assume one run equals one completed task.
 - Store run ID/session ID, task ID, observed status, timestamps, changed
-  paths where known, and errors/checkpoints in the project-local operational
+  paths where known, and errors/checkpoints in the film-local operational
   directory. Full chat content is not stored by default.
 - Provide manual status/linking and copyable handoffs if CLI monitoring is
   unavailable. Never inspect undocumented `~/.claude` internals.
@@ -194,10 +194,10 @@ The dashboard is a separate application repository mounted at
 
 - The dashboard process is not required to remain alive for Claude sessions
   to continue.
-- Persist the last observed session status and timestamp to the project
+- Persist the last observed session status and timestamp to the film
   folder; clearly label it stale if refresh fails.
-- On restart, reload project state, re-read Claude status, and reconcile
-  without overwriting newer project files.
+- On restart, reload film state, re-read Claude status, and reconcile
+  without overwriting newer film files.
 - Expose failures and partial writes; provide manual refresh and handoff
   options.
 - Pause/cancel semantics apply only where the Claude interface exposes them;
@@ -224,7 +224,7 @@ The dashboard is a separate application repository mounted at
 - Markdown/GFM parser for existing worklist and brief tables.
 - Pydantic to validate local records and CLI JSON.
 - pytest for the backend; Vitest and Testing Library for UI components.
-- Playwright for end-to-end project-opening and review flows.
+- Playwright for end-to-end film-opening and review flows.
 
 Pin exact versions in a hashed Python lockfile (`requirements.lock`) and in
 `package-lock.json`. Run the first prototype against the pilot film's files and current Claude
@@ -247,7 +247,7 @@ CLI before declaring the provider integration supported.
   useful if the CLI JSON format changes.
 - The dashboard can observe and guide parallel work, but cannot guarantee
   Claude's file-write confinement merely through prompts or UI labels.
-- Projects that are not Git repositories can still be browsed and tracked,
+- Films that are not Git repositories can still be browsed and tracked,
   but lack version-control rollback. Parallel writing to shared files must
   therefore be prohibited, not merely warned about.
 - The initial implementation is local, creator-only, and tied to the
@@ -259,9 +259,9 @@ CLI before declaring the provider integration supported.
 
 ## Acceptance proof before the dashboard MVP is considered viable
 
-1. The dashboard opens the pilot film project in read-only discovery mode and identifies
+1. The dashboard opens the pilot film in read-only discovery mode and identifies
    existing work without writing to its source documents.
-2. It creates its project-local operational directory only after explicit
+2. It creates its film-local operational directory only after explicit
    creator approval.
 3. It can generate a task handoff and the creator can launch that task in
    Claude Code's documented interactive interface.
@@ -275,7 +275,7 @@ CLI before declaring the provider integration supported.
    complete or approve its deliverables.
 8. A pre-production audit explains evidence, limitations, gaps, deferrals,
    and downstream impact; only the creator authorizes production entry.
-9. The application, project records, and recovery procedure work without a
+9. The application, film records, and recovery procedure work without a
    cloud database or background process.
 
 ## References
