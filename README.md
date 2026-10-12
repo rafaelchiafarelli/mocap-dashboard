@@ -1,33 +1,39 @@
-# React + TypeScript + Vite
+# Frame Workflow Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A local-first film workflow dashboard. The project folder remains the durable
+source of truth; this first application slice inventories Markdown documents
+without changing or interpreting their contents.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 22 or newer
+- npm
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+npm ci
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
-# mocap-dashboard
+Open the loopback URL printed by Vite. Enter the absolute path to a film
+project folder and select **Inspect project**. The inventory is read-only and
+limited to Markdown files, five directory levels deep, with common generated
+directories excluded.
+
+The first slice does not infer task status, readiness, or completion from
+filenames. It does not initialize `.film-workflow/` or persist selected
+projects. Those behaviors need to follow the accepted project state contract
+and real project-document formats.
+
+## Verification
+
+```sh
+npm test
+npm run typecheck
+npm run build
+```
+
+The API binds to `127.0.0.1` by default. It accepts local dashboard origins
+only and requires a per-process token for project inspection. Do not expose
+the development server to a network.
